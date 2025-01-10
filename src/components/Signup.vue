@@ -28,6 +28,12 @@
             <input type="text" @keyup="addSkill" v-model="skill">
         </div>
 
+        <div class="skill-container">
+            <div v-for="skill in skills" :key="skill" class="skill-item">
+                <p>{{ skill }}</p><span @click="deleteSkill(skill)" class="cross" style='font-size:20px;'>&#10008;</span>
+            </div>
+        </div>
+
 <!--      
         <label>Check Names</label>
         <div>
@@ -71,11 +77,16 @@
     },
     methods: {
       addSkill(e) {
-        console.log(e.key)
+        // console.log(e.key)
         if(e.keyCode === 13 ){
             this.skills.push(this.skill)
             this.skill=''
         }
+      },
+      deleteSkill(skill){
+        // console.log( "delete - " + skill) 
+        this.skills = this.skills.filter(loopskill=>{
+            return loopskill !== skill})
       }
     }
   };
@@ -190,4 +201,33 @@
   cursor: pointer;
   accent-color: #007bff; /* Adds a custom color for supported browsers */
   }
+
+  .skills-container {
+    margin: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Space between each skill item */
+}
+
+.skill-item {
+    margin: 5px;
+  display: inline-block;
+  align-items: center;
+  gap: 5px; /* Space between text and cross icon */
+  background-color: #f0f0f0;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.skill-item p {
+  margin: 5px;
+  font-size: 14px;
+}
+
+.cross {
+  color: red;
+  cursor: pointer;
+  font-size: 16px;
+}
 </style>

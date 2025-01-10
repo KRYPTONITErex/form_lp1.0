@@ -29,7 +29,16 @@
         <div class="skills-container">
             <label for="">Skills</label>
             <input type="text" v-model="skill" @keyup="skillAdd">
+
+            <div class="skills-list">
+                <span v-for="skill in skills" :key="skill">{{ skill }}
+                    <span @click="deleteSkill(skill)" class="cross" style='font-size:20px;'>&#10008;</span>
+                </span>
+            </div>
         </div>
+
+        
+
   
         <!-- Multiple Checkbox -->
         <!-- <div class="skills-container"><br>
@@ -70,10 +79,15 @@
     },
     methods: {
         skillAdd(e){
-            if(e.keyCode === 13){
+            if(e.keyCode === 13 && this.skill !== ''){  
                 this.skills.push(this.skill);
                 this.skill = '';
             }
+        },
+        deleteSkill(skill){
+            this.skills = this.skills.filter(loopskill=>{
+                return loopskill !== skill
+            })
         }
     }
 }
@@ -157,9 +171,15 @@
     display: flex;
     gap: 15px;
     align-items: center;
+    margin-top: 20px;
   }
   
   .skills-list input[type="checkbox"] {
     accent-color: #007bff;
   }
+
+  .cross{
+    cursor: pointer;
+    color: red;
+}
   </style>

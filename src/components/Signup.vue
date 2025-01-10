@@ -1,6 +1,6 @@
 <template>
     <p>Signup Form</p>
-    <form action="">
+    <form action="" @submit.prevent="submit" @keydown.enter.prevent>
       <div>
         <label>Email</label>
         <input type="email" required v-model="email">
@@ -51,6 +51,10 @@
         
 
       </div>
+      <p v-if="errorMsg" class="error">{{ errorMsg }}</p>
+        <div class="createbtn">
+            <button class="btn">Create Account</button>
+        </div>
     </form>
   
     <p>email - {{ email }}</p>
@@ -72,14 +76,15 @@
         accept: false,
         // names: []
         skills: [],
-        skill: ''
+        skill: '',
+        errorMsg: ''
       };
     },
     methods: {
       addSkill(e) {
         // console.log(e.key)
-        if(e.keyCode === 13 ){
-            this.skills.push(this.skill)
+        if(e.keyCode === 13 && this.skill){
+            this.skills.push(this.skill.trim())
             this.skill=''
         }
       },
@@ -87,6 +92,15 @@
         // console.log( "delete - " + skill) 
         this.skills = this.skills.filter(loopskill=>{
             return loopskill !== skill})
+      },
+      submit(){
+        console.log('submitted')
+        if(this.password.length < 6){
+            this.errorMsg = 'Password must be at least 6 characters'
+        }
+        if(!this.accept){
+            this.errorMsg = 'Please accept terms and conditions'
+        }
       }
     }
   };
@@ -230,4 +244,35 @@
   cursor: pointer;
   font-size: 16px;
 }
+
+.createbtn{
+    text-align: center;
+    margin-top: 20px;
+    display: block;
+}
+
+.btn{
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 4px 0 4px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 80%;
+}
+.btn:hover{
+    background-color: #0056b3;
+}
+
+.error{
+    color: red;
+    text-align: center;
+    margin: 10px 0;
+    font-style: italic;
+    font-size: 10px;
+}
+
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-      <form action="">
+      <form action="" @keydown.enter.prevent @submit.prevent="submit">
         <h2>Signup Form</h2>
   
         <!-- Email -->
@@ -28,7 +28,7 @@
 
         <div class="skills-container">
             <label for="">Skills</label>
-            <input type="text" v-model="skill" @keyup="skillAdd">
+            <input class="skill-input" type="text" v-model="skill" @keyup="skillAdd">
 
             <div class="skills-list">
                 <span v-for="skill in skills" :key="skill">{{ skill }}
@@ -54,6 +54,13 @@
             <label for="javascript" >Javascript</label>
           </div>
         </div> -->
+
+        <div class="errortext"><p v-if="errMsg">{{ errMsg }}</p></div>
+        
+        <div class="btn-container">
+          <button class="btn" type="create">CREATE ACCOUNT</button>
+        </div>
+
       </form>
     </div>
 
@@ -74,7 +81,8 @@
         terms: false,
         profession: 'webDesigner',
         skills: [],
-        skill: ''
+        skill: '',
+        errMsg: ''
       }
     },
     methods: {
@@ -88,6 +96,15 @@
             this.skills = this.skills.filter(loopskill=>{
                 return loopskill !== skill
             })
+        },
+        submit(){
+            console.log('submitted');
+            if(this.password.length < 6){
+                this.errMsg = 'Password must be at least 6 characters';
+            }
+            if(!this.terms){
+                this.errMsg = 'You must agree to the terms and conditions';
+            }
         }
     }
 }
@@ -101,7 +118,7 @@
     margin: 20px auto;
     padding: 20px;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 0 8px 0 8px;
     background-color: #f9f9f9;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: Arial, sans-serif;
@@ -129,7 +146,7 @@
     padding: 10px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 0 4px 0 4px;
     font-size: 14px;
     transition: border-color 0.3s ease;
     box-sizing: border-box;
@@ -182,4 +199,54 @@
     cursor: pointer;
     color: red;
 }
+
+.btn-container{
+    text-align: center;
+}
+
+.btn{
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px 0 4px 0;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover{
+    background-color: #0056b3;
+}
+
+.skill-input{
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 4px 0;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+    width: 50%;
+}
+
+#profession{
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px 0 4px 0;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+    width: 50%;
+}
+
+.errortext{
+    color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+    font-style: italic;
+}
+
+
   </style>
